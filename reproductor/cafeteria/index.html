@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Nocturna Café</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-view" class="login-wrapper">
+        <div class="login-card">
+            <div class="logo">🌙</div>
+            <h1>Nocturna Café</h1>
+            <p>Sistema de Gestión</p>
+            
+            <div class="input-group">
+                <input type="text" id="userInput" placeholder="Usuario (admin / empleado)">
+            </div>
+            <div class="input-group">
+                <input type="password" id="passInput" placeholder="Contraseña (1234)">
+            </div>
+            
+            <button onclick="intentarLogin()">Ingresar</button>
+            <p id="errorMsg" class="error-text">Credenciales incorrectas</p>
+        </div>
+    </div>
+
+    <div id="dashboard-view" class="dashboard-wrapper" style="display: none;">
+        
+        <nav class="navbar">
+            <div class="nav-brand">🌙 Nocturna Dashboard</div>
+            <div class="nav-user">
+                <span id="displayNombre">Usuario</span>
+                <span id="displayRol" class="badge">Rol</span>
+                <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="grid-container">
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📊 Ventas en Tiempo Real</h3>
+                        <small>Actualización en vivo (AJAX)</small>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartVentas"></canvas>
+                    </div>
+                </div>
+
+                <div class="card" id="cardRendimiento">
+                    <div class="card-header">
+                        <h3>🏆 Rendimiento de Personal</h3>
+                        <small>Evaluación mensual</small>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartRendimiento"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="chat-section">
+                <div class="card chat-card">
+                    <div class="card-header">
+                        <h3>💬 Comunicación Interna</h3>
+                    </div>
+                    
+                    <div id="chatBox" class="chat-box">
+                        <div class="mensaje sistema">
+                            Conectado al servidor de chat...
+                        </div>
+                    </div>
+
+                    <div class="chat-input-area">
+                        <input type="text" id="chatInput" placeholder="Escribe un mensaje aquí...">
+                        <button onclick="enviarMensaje()">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

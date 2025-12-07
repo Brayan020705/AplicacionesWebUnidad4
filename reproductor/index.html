@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Música</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="player-container">
+        <div class="album-art">♪</div>
+        
+        <div class="song-info">
+            <div class="song-title" id="songTitle">Selecciona una canción</div>
+            <div class="song-artist" id="songArtist">Sin artista</div>
+        </div>
+
+        <div class="visualizer" id="visualizer"></div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="time-info">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="prevBtn" title="Anterior">⏮</button>
+            <button class="control-btn play-pause" id="playPauseBtn" title="Reproducir">▶</button>
+            <button class="control-btn" id="nextBtn" title="Siguiente">⏭</button>
+        </div>
+
+        <div class="volume-container">
+            <span class="volume-icon">🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+        </div>
+
+        <div class="file-input-container">
+            <label for="fileInput" class="file-label">
+                 Cargar Canciones
+            </label>
+            <input type="file" id="fileInput" accept="audio/*" multiple>
+        </div>
+
+        <div class="playlist" id="playlist"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

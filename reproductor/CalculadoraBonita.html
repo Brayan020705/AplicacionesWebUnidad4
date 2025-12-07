@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #e0e0e0;
+        }
+
+        .calculadora {
+            background: #f5f5f5;
+            border: 2px solid #999;
+            padding: 20px;
+            width: 320px;
+        }
+
+        .pantalla {
+            background: #fff;
+            border: 1px solid #999;
+            padding: 15px;
+            margin-bottom: 15px;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .operacion {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+            min-height: 18px;
+        }
+
+        #display {
+            background: transparent;
+            border: none;
+            color: #000;
+            font-size: 28px;
+            text-align: right;
+            width: 100%;
+            outline: none;
+            pointer-events: none;
+        }
+
+        .botones {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        button {
+            padding: 18px;
+            font-size: 18px;
+            border: 1px solid #999;
+            cursor: pointer;
+            background: #fff;
+            color: #000;
+        }
+
+        button:hover {
+            background: #e0e0e0;
+        }
+
+        button:active {
+            background: #d0d0d0;
+        }
+
+        .numero {
+            background: #fff;
+            color: #000;
+        }
+
+        .operador {
+            background: #ddd;
+            color: #000;
+        }
+
+        .igual {
+            background: #4caf50;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .igual:hover {
+            background: #45a049;
+        }
+
+        .clear {
+            background: #f44336;
+            color: white;
+        }
+
+        .clear:hover {
+            background: #da190b;
+        }
+
+        .delete {
+            background: #ff9800;
+            color: white;
+        }
+
+        .delete:hover {
+            background: #e68900;
+        }
+
+        .cero {
+            grid-column: span 2;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculadora">
+        <h2>Calculadora</h2>
+        <div class="pantalla">
+            <div class="operacion" id="operacion"></div>
+            <input type="text" id="display" value="0" readonly disabled>
+        </div>
+        <div class="botones">
+            <button class="clear" onclick="limpiar()">AC</button>
+            <button class="delete" onclick="borrar()">DEL</button>
+            <button class="operador" onclick="agregar_operador('/')">/</button>
+            <button class="operador" onclick="agregar_operador('*')">×</button>
+            
+            <button class="numero" onclick="agregar_numero('7')">7</button>
+            <button class="numero" onclick="agregar_numero('8')">8</button>
+            <button class="numero" onclick="agregar_numero('9')">9</button>
+            <button class="operador" onclick="agregar_operador('-')">-</button>
+            
+            <button class="numero" onclick="agregar_numero('4')">4</button>
+            <button class="numero" onclick="agregar_numero('5')">5</button>
+            <button class="numero" onclick="agregar_numero('6')">6</button>
+            <button class="operador" onclick="agregar_operador('+')">+</button>
+            
+            <button class="numero" onclick="agregar_numero('1')">1</button>
+            <button class="numero" onclick="agregar_numero('2')">2</button>
+            <button class="numero" onclick="agregar_numero('3')">3</button>
+            <button class="numero" onclick="agregar_numero('.')">.</button>
+            
+            <button class="numero cero" onclick="agregar_numero('0')">0</button>
+            <button class="igual" onclick="calcular()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let numero_actual = '';
+        let operacion_completa = '';
+        let resultado_mostrado = false;
+
+        function actualizar_pantalla() {
+            document.getElementById('display').value = numero_actual || '0';
+            document.getElementById('operacion').textContent = operacion_completa;
+        }
+
+        function agregar_numero(numero) {
+            if (resultado_mostrado) {
+                numero_actual = '';
+                operacion_completa = '';
+                resultado_mostrado = false;
+            }
+
+            if (numero === '.' && numero_actual.includes('.')) {
+                return;
+            }
+
+            if (numero_actual === '0' && numero !== '.') {
+                numero_actual = numero;
+            } else {
+                numero_actual += numero;
+            }
+            
+            actualizar_pantalla();
+        }
+
+        function agregar_operador(operador) {
+            if (numero_actual === '' && operacion_completa === '') {
+                return;
+            }
+
+            if (resultado_mostrado) {
+                operacion_completa = numero_actual;
+                resultado_mostrado = false;
+            }
+
+            if (numero_actual !== '') {
+                operacion_completa += numero_actual + ' ' + operador + ' ';
+                numero_actual = '';
+            } else {
+                operacion_completa = operacion_completa.slice(0, -3) + ' ' + operador + ' ';
+            }
+
+            actualizar_pantalla();
+        }
+
+        function calcular() {
+            if (numero_actual === '' || operacion_completa === '') {
+                return;
+            }
+
+            try {
+                let expresion_matematica = operacion_completa + numero_actual;
+                expresion_matematica = expresion_matematica.replace(/×/g, '*').replace(/÷/g, '/');
+                
+                let resultado_calculo = eval(expresion_matematica);
+                
+                if (!isFinite(resultado_calculo)) {
+                    numero_actual = 'Error';
+                } else {
+                    numero_actual = resultado_calculo.toString();
+                }
+                
+                resultado_mostrado = true;
+                actualizar_pantalla();
+            } catch (error) {
+                numero_actual = 'Error';
+                actualizar_pantalla();
+            }
+        }
+
+        function limpiar() {
+            numero_actual = '';
+            operacion_completa = '';
+            resultado_mostrado = false;
+            actualizar_pantalla();
+        }
+
+        function borrar() {
+            if (resultado_mostrado) {
+                limpiar();
+                return;
+            }
+            
+            numero_actual = numero_actual.slice(0, -1);
+            actualizar_pantalla();
+        }
+
+        actualizar_pantalla();
+    </script>
+</body>
+</html>

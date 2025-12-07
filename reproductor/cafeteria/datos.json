@@ -1,0 +1,12 @@
+{
+  "usuarios": [
+    { "user": "admin", "pass": "1234", "rol": "administrador", "nombre": "Gerente General" },
+    { "user": "empleado", "pass": "1234", "rol": "empleado", "nombre": "Juan Barista" }
+  ],
+  "config_inicial": {
+    "ventas_hora": [150, 200, 180, 220, 300, 250],
+    "horas_labels": ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"],
+    "rendimiento_scores": [95, 88, 75, 92, 85],
+    "empleados_nombres": ["Juan", "Ana", "Luis", "Sofía", "Pedro"]
+  }
+}
